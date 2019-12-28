@@ -17,13 +17,13 @@ io.on("connection", socket => {
   // recieving event
 
   socket.on("join", ({ name, room }, callback) => {
-    const  user  = addUser({ id: socket.id, name, room });
+    const user = addUser({ id: socket.id, name, room });
 
     // it's an error message
-    if (typeof(user)==='string') {
+    if (typeof user === "string") {
       return callback(user);
     }
- 
+
     // welcoming the user
 
     socket.emit("message", {
@@ -48,7 +48,13 @@ io.on("connection", socket => {
   });
 
   socket.on("disconnect", () => {
-    console.log("User has left.");
+    const user = removeUser(socket.id);
+    if (user) {
+      io.to(user.room).emit("message", {
+        user: "adinm",
+        text: `${user.name} has left`
+      });
+    }
   });
 });
 
