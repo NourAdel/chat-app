@@ -1,6 +1,7 @@
-# chat-app
-real time chat app.
+# Preview:
 
-Setup:
+real time chat app using websocket for client-server communication.
 
-run npm i && npm start for both client and server side to start the development server
+# Setup:
+
+run ```npm i && npm start``` start for both client and server side to start the development server.
