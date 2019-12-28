@@ -17,10 +17,13 @@ io.on("connection", socket => {
   // recieving event
 
   socket.on("join", ({ name, room }, callback) => {
-    const { error, user } = addUser({ id: socket.id, name, room });
-    if (error) {
-      return callback(error);
+    const  user  = addUser({ id: socket.id, name, room });
+
+    // it's an error message
+    if (typeof(user)==='string') {
+      return callback(user);
     }
+ 
     // welcoming the user
 
     socket.emit("message", {
