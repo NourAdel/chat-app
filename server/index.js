@@ -11,7 +11,13 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 io.on("connection", socket => {
-  console.log("we have a ew connection");
+  console.log("we have a new connection");
+
+  // recieving event
+
+  socket.on('join', ({ name, room }) => {
+    console.log(name, room);
+  });
 
   socket.on("disconnect", () => {
     console.log("User has left.");
