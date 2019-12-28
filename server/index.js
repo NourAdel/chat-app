@@ -12,19 +12,17 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 io.on("connection", socket => {
-  console.log("we have a new connection");
-
   // recieving event
 
   socket.on("join", ({ name, room }, callback) => {
     const user = addUser({ id: socket.id, name, room });
 
     // it's an error message
-    if (typeof user === "string") {
-      return callback(user);
-    }
+    if (typeof (user) === "string") {return callback(user)};
+    
 
     // welcoming the user
+    socket.join(user.room);
 
     socket.emit("message", {
       user: "admin",
@@ -37,7 +35,10 @@ io.on("connection", socket => {
       text: `${user.name} has joined us!.`
     });
 
-    socket.join(user.room);
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room)
+    });
     callback();
   });
 
@@ -49,15 +50,21 @@ io.on("connection", socket => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-    if (user) {
+
+    if (user) {  
       io.to(user.room).emit("message", {
-        user: "adinm",
+        user: "admin",
         text: `${user.name} has left`
       });
+
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room)
+      });
     }
-  });
+  }); 
 });
 
-app.use(router);
+app.use(router);  
 
 server.listen(PORT, () => console.log(`Server has started on post ${PORT}`));
