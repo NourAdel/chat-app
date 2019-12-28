@@ -3,8 +3,8 @@ import queryStrig from "query-string";
 import io from "socket.io-client";
 
 import "./Chat.css";
-import InfoBar from '../InfoBar/InfoBar'
-
+import InfoBar from "../InfoBar/InfoBar";
+import Input from "../Input/Input";
 let socket;
 
 const Chat = ({ location }) => {
@@ -23,7 +23,7 @@ const Chat = ({ location }) => {
     setRoom(room);
 
     // on join the server will do something, also passing data to the server
-    socket.emit("join", { name, room }, ()=>{});
+    socket.emit("join", { name, room }, () => {});
 
     // return acts as compomentwillunmount
 
@@ -48,18 +48,16 @@ const Chat = ({ location }) => {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
   };
-  console.log(message, messages)
+  console.log(message, messages);
   return (
     <div className="outerContainer">
       <div className="container">
-        <InfoBar room={room}/>
-        {/* <input
-          value={message}
-          onKeyPress={event =>
-            event.key === "Enter" ? sendMessage(event) : null
-          }
-          onChange={event => setMessage(event.target.value)}
-        /> */}
+        <InfoBar room={room} />
+        <Input
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
       </div>
     </div>
   );
