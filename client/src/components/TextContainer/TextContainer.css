@@ -5,6 +5,9 @@
   color: white;
   height: 60%;
   justify-content: space-between;
+  border-radius: 3;
+  border-width: 2;
+  border-color: 'white';
 }
 .activeContainer {
   display: flex;

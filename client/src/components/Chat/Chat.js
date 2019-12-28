@@ -50,14 +50,17 @@ const Chat = ({ location, history }) => {
     };
   }, [messages]);
 
-  const sendMessage = event => {
+  const sendMessage = (event) => {
     event.preventDefault();
 
-    if (message) {
-      socket.emit("sendMessage", message, () => setMessage(""));
+    if(message) {
+      socket.emit('sendMessage', message, ()=>setMessage(''));
     }
-  };
-  console.log(message, messages);
+    
+  }
+
+  console.log("msg::::   ",message, messages);
+  console.log( messages);
   return (
     <div className="outerContainer">
       <div className="container">

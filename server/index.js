@@ -12,7 +12,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 io.on("connection", socket => {
-  // recieving event
+  // recieving event 
 
   socket.on("join", ({ name, room }, callback) => {
     const user = addUser({ id: socket.id, name, room });
@@ -45,9 +45,8 @@ io.on("connection", socket => {
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", { user: user.name, text: message });
-    callback();
+     callback();
   });
-
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
 
